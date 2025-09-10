@@ -1,0 +1,71 @@
+/* You can add global styles to this file, and also import other style files */
+@use "tailwindcss";
+
+:root {
+  /* Backgrounds */
+  --bg-color: #141414; /* main background */
+  --bg-surface: #000000; /* deep black for overlays/headers */
+  --bg-secondary: #2f2f2f; /* cards, panels */
+
+  /* Primary (Netflix red) */
+  --primary: #e50914; /* brand red */
+  --primary-hover: #f40612; /* hover/active state */
+
+  /* Text / "on" colors */
+  --on-bg: #ffffff; /* default text on dark bg */
+  --on-bg-secondary: #b3b3b3; /* muted text */
+  --on-primary: #ffffff; /* text/icons on red buttons */
+
+  /* Neutrals */
+  --text-muted: #808080; /* tertiary text/icons */
+  --border-color: #2f2f2f; /* dividers, outlines */
+
+  /* Gradients (optional) */
+  --gradient-dark: linear-gradient(180deg, #444444 0%, #000000 100%);
+  --gradient-primary: linear-gradient(90deg, #e50914 0%, #f40612 100%);
+}
+
+body {
+  background: var(--gradient-dark);
+  color: var(--on-bg);
+}
+
+.card {
+  background-color: var(--bg-surface);
+  @apply rounded-xl shadow-xl;
+}
+
+.card-title {
+  @apply text-3xl font-extrabold;
+  color: var(--on-primary);
+  background-color: var(--primary);
+  @apply px-8 py-4 rounded-xl rounded-b-none;
+}
+
+.form-input {
+  border: 1px solid var(--border-color);
+  @apply px-2 py-2 rounded-lg placeholder-[var(--text-muted)];
+}
+
+.button {
+  background-color: var(--bg-secondary);
+  @apply rounded-xl shadow-xl px-5 py-3;
+  @apply cursor-pointer;
+}
+
+.button:hover {
+  background-color: var(--primary-hover);
+}
+
+.button-primary {
+  background-color: var(--primary);
+}
+
+.button-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.item {
+  background-color: var(--bg-secondary);
+  @apply p-4 rounded-xl;
+}

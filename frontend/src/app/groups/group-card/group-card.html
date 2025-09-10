@@ -1,0 +1,12 @@
+<div class="card p-8">
+  <a [routerLink]="'/movies/' + group?.id">{{ group?.name }}</a>
+
+  <div class="flex flex-row mt-8 gap-4">
+    <a
+      class="button button-primary inline-block"
+      [routerLink]="'/movies/' + group?.id"
+      >View</a
+    >
+    <button class="button">Leave</button>
+  </div>
+</div>
