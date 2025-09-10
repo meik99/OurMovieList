@@ -22,6 +22,10 @@ export class App implements OnInit {
     console.log("Fuck off Rene!");
 
     this.isLoggedIn = !!this.loginService.getUser();
+
+    setInterval(() => {
+      this.isLoggedIn = !!this.loginService.getUser();
+    }, 500);
   }
 
   checkUser(user: User | null) {

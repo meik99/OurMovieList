@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './movies.scss'
 })
 export class Movies {
-
+  movies: string[] = []
 }

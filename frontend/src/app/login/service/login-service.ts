@@ -8,4 +8,5 @@ import { Observable } from 'rxjs';
 export abstract class LoginService {
   abstract getUser(): User | null
   abstract login(email: string, password: string): Promise<Observable<User | null>>
+  abstract logout(): Promise<void>
 }

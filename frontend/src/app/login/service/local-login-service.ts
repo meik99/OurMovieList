@@ -9,7 +9,7 @@ import { User } from "../User";
 export class LocalLoginService extends LoginService {
   user: User | null = null;
 
-  async login(
+  override async login(
     email: string,
     password: string,
   ): Promise<Observable<User | null>> {
@@ -17,7 +17,11 @@ export class LocalLoginService extends LoginService {
     return of(this.user);
   }
 
-  getUser(): User | null {
+  override getUser(): User | null {
     return this.user;
+  }
+
+  override async logout(): Promise<void> {
+    this.user = null;
   }
 }

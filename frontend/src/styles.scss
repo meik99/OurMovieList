@@ -32,7 +32,7 @@ body {
 
 .card {
   background-color: var(--bg-surface);
-  @apply rounded-xl shadow-xl;
+  @apply rounded-xl shadow-2xl;
 }
 
 .card-title {

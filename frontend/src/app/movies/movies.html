@@ -1,1 +1,11 @@
-<p>movies works!</p>
+@if(movies.length <= 0) {
+<div class="flex flex-col text-center p-8 gap-4">
+  <div>This group does not follow any movies</div>
+  <div>Add one to fill the watchlist</div>
+  <div>
+    <a class="button button-primary w-fit inline-block" routerLink="/movies/add"
+      >+</a
+    >
+  </div>
+</div>
+}
