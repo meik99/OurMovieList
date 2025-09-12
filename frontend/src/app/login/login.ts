@@ -20,8 +20,8 @@ export class Login {
 
   constructor(private loginService: LoginService) {}
 
-  async login() {
-    (await this.loginService.login(this.email, this.password)).subscribe(
+  login() {
+    this.loginService.login(this.email, this.password).subscribe(
       (user) => this.onLogin.emit(user),
     );
   }

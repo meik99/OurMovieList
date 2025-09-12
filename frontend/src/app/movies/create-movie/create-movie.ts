@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { catchError, debounceTime, of, Subject } from 'rxjs';
 import { ImdbService } from '../service/imdb-service';
-import { Movie } from '../Movie';
+import { ImdbMovie } from '../ImdbMovie';
 
 @Component({
   selector: 'app-create-movie',
@@ -20,8 +20,8 @@ export class CreateMovie {
   private _imdbQuery: string = "";
   private _imdbIdChanged: Subject<string> = new Subject<string>();
   private _imdbQueryChanged: Subject<string> = new Subject<string>();
-  movie: Movie | null = null;
-  movies: Movie[] = [];
+  movie: ImdbMovie | null = null;
+  movies: ImdbMovie[] = [];
   loading = false;
   loadedOnce = false;
   groupId = "";

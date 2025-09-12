@@ -4,14 +4,14 @@
     <div class="flex flex-col p-8 gap-6">
       <div class="flex flex-col">
         <label>E-Mail</label>
-        <input type="email" class="form-input" placeholder="user@email.com" />
+        <input type="email" class="form-input" placeholder="user@email.com" [(ngModel)]="email"/>
       </div>
       <div class="flex flex-col">
         <label>Password</label>
-        <input type="password" class="form-input" placeholder="******" />
+        <input type="password" class="form-input" placeholder="******" [(ngModel)]="password"/>
       </div>
       <div class="flex flex-row gap-4 mt-2">
-        <button class="button button-primary">Register</button>
+        <button class="button button-primary" (click)="register()">Register</button>
         <button class="button" (click)="onLogin.emit()">Login</button>
       </div>
     </div>

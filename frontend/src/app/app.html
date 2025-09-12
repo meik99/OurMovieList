@@ -1,16 +1,16 @@
-<!-- @if(showLogin && !isLoggedIn) {
+@if(showLogin && !isLoggedIn) {
 <app-login
   (onRegister)="showLogin = false"
   (onLogin)="checkUser($event)"
 ></app-login>
 } @else if(!isLoggedIn) {
-<app-register (onLogin)="showLogin = true"></app-register>
+<app-register (onLogin)="showLogin = true" (onRegister)="checkUser($event)"></app-register>
 } @else {
 <div class="flex flex-col w-full h-screen">
   <router-outlet></router-outlet>
 </div>
-} -->
-
+}
+<!--
 <div class="flex flex-col w-full h-screen">
   <router-outlet></router-outlet>
-</div>
+</div> -->

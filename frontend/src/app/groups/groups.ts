@@ -27,7 +27,7 @@ export class Groups implements OnInit {
   }
 
   async logout() {
-    await this.loginService.logout();
+    this.loginService.logout();
     this.router.navigate(["/"]);
   }
 }

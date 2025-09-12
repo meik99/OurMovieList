@@ -1,4 +1,4 @@
-export class Movie {
+export class ImdbMovie {
     id?: string;
     type?: string;
     primaryTitle?: string;
@@ -63,7 +63,7 @@ export class Movie {
         isSubgenre?: boolean;
     }[];
 
-    constructor(args?: Partial<Movie>) {
+    constructor(args?: Partial<ImdbMovie>) {
         if (args) {
             Object.assign(this, args);
         }

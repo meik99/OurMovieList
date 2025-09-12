@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export abstract class LoginService {
   abstract getUser(): User | null
-  abstract login(email: string, password: string): Promise<Observable<User | null>>
-  abstract logout(): Promise<void>
+  abstract login(email: string, password: string): Observable<User | null>
+  abstract register(email: string, password: string): Observable<User | null>
+  abstract logout(): void
 }
