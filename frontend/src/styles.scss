@@ -26,7 +26,9 @@
 }
 
 body {
-  background: var(--gradient-dark);
+  background: var(--bg-color);
+  background-size: contain;
+  background-repeat: no-repeat;
   color: var(--on-bg);
 }
 

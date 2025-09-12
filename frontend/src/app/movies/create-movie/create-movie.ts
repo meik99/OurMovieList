@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { debounceTime, Subject } from 'rxjs';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { catchError, debounceTime, of, Subject } from 'rxjs';
 import { ImdbService } from '../service/imdb-service';
 import { Movie } from '../Movie';
 
@@ -17,18 +17,47 @@ import { Movie } from '../Movie';
 })
 export class CreateMovie {
   private _imdbId: string = "";
+  private _imdbQuery: string = "";
   private _imdbIdChanged: Subject<string> = new Subject<string>();
+  private _imdbQueryChanged: Subject<string> = new Subject<string>();
   movie: Movie | null = null;
+  movies: Movie[] = [];
+  loading = false;
+  loadedOnce = false;
+  groupId = "";
 
   constructor(
-    private imdbService: ImdbService
+    private imdbService: ImdbService,
+    private route: ActivatedRoute
   ) {
+    this.route.queryParams.subscribe(params => {
+      this.groupId = params['group_id'];
+    });
     this._imdbIdChanged
-      .pipe(debounceTime(500))
+      .pipe(
+        debounceTime(500)
+      )
       .subscribe(async (imdbId: string) => {
-        (await this.imdbService.findMovieById(imdbId)).subscribe((movie) => {
+        this.loading = true;
+        (await this.imdbService.findMovieById(imdbId))
+          .pipe(catchError(() => of(null)))
+          .subscribe((movie) => {
           this.movie = movie;
-          console.log(movie);
+          this.loading = false;
+          this.loadedOnce = true;
+        })
+      });
+      this._imdbQueryChanged
+      .pipe(
+        debounceTime(500)
+      )
+      .subscribe(async (imdbQuery: string) => {
+        this.loading = true;
+        (await this.imdbService.queryMovies(imdbQuery))
+          .pipe(catchError(() => of([])))
+          .subscribe((movies) => {
+          this.movies = movies;
+          this.loading = false;
         })
       });
   }
@@ -40,5 +69,20 @@ export class CreateMovie {
   set imdbId(value: string) {
     this._imdbId = value;
     this._imdbIdChanged.next(value);
+  }
+
+  get imdbQuery(): string {
+    return this._imdbQuery;
+  }
+
+  set imdbQuery(value: string) {
+    this._imdbQuery = value;
+    this._imdbQueryChanged.next(value);
+  }
+
+  save() {
+    if (this.movie) {
+      console.log("Saving movie", this.movie);
+    }
   }
 }

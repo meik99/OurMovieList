@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-movies',
@@ -11,4 +11,13 @@ import { RouterLink } from '@angular/router';
 })
 export class Movies {
   movies: string[] = []
+  groupId = "";
+
+  constructor(
+    private route: ActivatedRoute
+  ) {
+    this.route.queryParams.subscribe(params => {
+      this.groupId = params['group_id'];
+    });
+  }
 }

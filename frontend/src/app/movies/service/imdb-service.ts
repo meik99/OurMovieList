@@ -19,4 +19,17 @@ export class ImdbService {
         return new Movie(response);
       }))
   }
+
+  async queryMovies(imdbQuery: string): Promise<Observable<Movie[]>> {
+    return this.http.get<any[]>(`https://api.imdbapi.dev/search/titles?query=${imdbQuery}`)
+      .pipe(map((response: any) => {
+        if (!response || response.code) {
+          return [];
+        }
+
+        return response.titles.map((item: any) => new Movie(item));
+
+      }
+      ));
+  }
 }
