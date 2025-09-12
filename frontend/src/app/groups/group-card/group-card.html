@@ -4,7 +4,8 @@
   <div class="flex flex-row mt-8 gap-4">
     <a
       class="button button-primary inline-block"
-      [routerLink]="'/movies/' + group?.id"
+      routerLink="/movies"
+      [queryParams]="{ group_id: group?.id }"
       >View</a
     >
     <button class="button">Leave</button>

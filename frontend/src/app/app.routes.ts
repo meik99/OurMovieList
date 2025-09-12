@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { Groups } from "./groups/groups";
 import { CreateGroup } from "./groups/create-group/create-group";
 import { Movies } from "./movies/movies";
+import { CreateMovie } from "./movies/create-movie/create-movie";
 
 export const routes: Routes = [
   {
@@ -18,7 +19,11 @@ export const routes: Routes = [
     component: CreateGroup,
   },
   {
-    path: "movies/:id",
+    path: "movies",
     component: Movies,
+  },
+  {
+    path: "movies/create",
+    component: CreateMovie,
   },
 ];

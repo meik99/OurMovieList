@@ -1,0 +1,20 @@
+<div class="p-8">
+  <div class="card m-auto">
+    <h2 class="card-title">Create group</h2>
+    <div class="flex flex-col p-8 gap-6">
+      <div class="flex flex-col">
+        <label>IMDB Id*</label>
+        <input
+          type="text"
+          class="form-input"
+          placeholder="tt30972054"
+          [(ngModel)]="imdbId"
+        />
+      </div>
+      <div class="flex flex-row gap-4">
+        <button class="button button-primary">Save</button>
+        <a class="button inline-block" routerLink="/movies"> Cancel </a>
+      </div>
+    </div>
+  </div>
+</div>
