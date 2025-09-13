@@ -5,5 +5,5 @@ import { Env } from "./Env";
 export const environment = new Env({
     loginService: ApiLoginService,
     groupService: ApiGroupService,
-    apiUrl: "https://api.movies.rynkix.com"
+    apiUrl: "https://api.movies.rynkix.com/api"
 });
