@@ -13,6 +13,12 @@ export const Users: CollectionConfig = {
 
       const reqBody = typeof req.json === 'function' ? await req.json() : req.body;
       
+      if (!reqBody || !reqBody.inviteCode) {
+        return false
+      }
+
+      console.log('Request Body:', reqBody);
+
       const inviteCode = reqBody.inviteCode      
       return inviteCode === INVITE_CODE
     },
