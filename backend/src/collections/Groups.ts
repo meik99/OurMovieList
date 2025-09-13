@@ -1,6 +1,6 @@
 import { downvote, findMyGroups, upvote } from '@/endpoints/groups'
 import { User } from '@/payload-types'
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Where } from 'payload'
 
 export const Groups: CollectionConfig = {
     slug: 'groups',
@@ -9,12 +9,14 @@ export const Groups: CollectionConfig = {
             if (!user) return false
             if (user.id && user.id.toString() === "1") return true // Allow admin user to read all groups
 
-            return {
+            const query: Where = {
                 or: [
                     { "friends.email": { contains: user.email } },
                     { "admin.id": { equals: user.id } }
                 ]
-            }
+            } 
+
+            return query
         },
         create: ({ req: { user }, data }) => {
             if (!user) return false
@@ -30,12 +32,14 @@ export const Groups: CollectionConfig = {
             if (!user) return false
             if (user.id && user.id.toString() === "1") return true // Allow admin user to read all groups
 
-            return {
+            const query: Where = {
                 or: [
                     { "friends.email": { contains: user.email } },
                     { "admin.id": { equals: user.id } }
                 ]
-            }
+            } 
+
+            return query
         },
         delete: async ({ req: { user } }) => {
             if (!user) return false
