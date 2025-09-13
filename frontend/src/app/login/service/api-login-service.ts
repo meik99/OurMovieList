@@ -37,11 +37,12 @@ export class ApiLoginService extends LoginService {
     }));
   }
 
-  override register(email: string, password: string): Observable<User | null> {
+  override register(email: string, password: string, inviteCode: string): Observable<User | null> {
 
     return this.http.post<User | null>(`${environment.apiUrl}/users`, {
       email: email,
-      password: password
+      password: password,
+      inviteCode: inviteCode
     }, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(switchMap(() => {

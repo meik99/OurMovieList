@@ -10,6 +10,10 @@
         <label>Password</label>
         <input type="password" class="form-input" placeholder="******" [(ngModel)]="password"/>
       </div>
+      <div class="flex flex-col">
+        <label>Invite code</label>
+        <input type="text" class="form-input" placeholder="ab12cd34" [(ngModel)]="inviteCode"/>
+      </div>
       <div class="flex flex-row gap-4 mt-2">
         <button class="button button-primary" (click)="register()">Register</button>
         <button class="button" (click)="onLogin.emit()">Login</button>

@@ -21,13 +21,14 @@ export class Register {
 
   email: string = "";
   password: string = "";
+  inviteCode: string = "";
 
   constructor(private loginService: LoginService) {
 
   }
 
   register() {
-    this.loginService.register(this.email, this.password).subscribe(
+    this.loginService.register(this.email, this.password, this.inviteCode).subscribe(
       (user) => this.onRegister.emit(user),
     );
   }
