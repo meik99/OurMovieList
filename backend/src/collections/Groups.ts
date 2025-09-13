@@ -12,7 +12,7 @@ export const Groups: CollectionConfig = {
             return {
                 or: [
                     { 'admin.id': { equals: user.id.toString() } },
-                    { 'friends.id': { contains: user.id.toString() } }
+                    { 'friends': { contains: user.email } }
                 ]
             }
         },
@@ -70,10 +70,15 @@ export const Groups: CollectionConfig = {
         },
         {
             name: "friends",
-            type: "relationship",
-            relationTo: "users",
-            hasMany: true,
+            type: "array",
             unique: true,
+            fields: [
+                {
+                    name: "email",
+                    type: "text",
+                    required: true,
+                }
+            ]
         },
         {
             name: 'movies',

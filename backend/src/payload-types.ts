@@ -166,7 +166,12 @@ export interface Group {
   id: number;
   name: string;
   admin: number | User;
-  friends?: (number | User)[] | null;
+  friends?:
+    | {
+        email: string;
+        id?: string | null;
+      }[]
+    | null;
   movies?:
     | {
         imdbId?: string | null;
@@ -286,7 +291,12 @@ export interface MediaSelect<T extends boolean = true> {
 export interface GroupsSelect<T extends boolean = true> {
   name?: T;
   admin?: T;
-  friends?: T;
+  friends?:
+    | T
+    | {
+        email?: T;
+        id?: T;
+      };
   movies?:
     | T
     | {
