@@ -13,11 +13,7 @@ import { Group } from "../Group";
 export class CreateGroup {
   name: string = "";
   friend: string = "";
-  friends: string[] = [
-    "friend1@email.com",
-    "friend2@email.com",
-    "friend3@email.com",
-  ];
+  friends: string[] = [];
 
   constructor(
     private groupService: GroupService,
@@ -33,10 +29,10 @@ export class CreateGroup {
     this.friends = this.friends.filter((email) => email !== friend);
   }
 
-  async save() {
+  save() {
     if (this.name && this.name.length > 0) {
       (
-        await this.groupService.insert(
+        this.groupService.insert(
           new Group({
             name: this.name,
             friends: this.friends,

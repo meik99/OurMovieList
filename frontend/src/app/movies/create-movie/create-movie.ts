@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { catchError, debounceTime, of, Subject } from 'rxjs';
 import { ImdbService } from '../service/imdb-service';
 import { ImdbMovie } from '../ImdbMovie';
+import { GroupService } from '../../groups/service/group-service';
+import { GroupMovie } from '../../groups/GroupMovie';
+import { Group } from '../../groups/Group';
 
 @Component({
   selector: 'app-create-movie',
@@ -28,7 +31,9 @@ export class CreateMovie {
 
   constructor(
     private imdbService: ImdbService,
-    private route: ActivatedRoute
+    private groupService: GroupService, 
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.route.queryParams.subscribe(params => {
       this.groupId = params['group_id'];
@@ -82,7 +87,22 @@ export class CreateMovie {
 
   save() {
     if (this.movie) {
-      console.log("Saving movie", this.movie);
+      this.groupService.findById(this.groupId).subscribe((group) => {
+        console.log("Adding movie to group", group, this.movie);
+        if (group) {
+          group.movies = group.movies || [];
+          if (!group.movies.find((m: GroupMovie) => m.imdbId === this.movie?.id)) {
+            group.movies.push(new GroupMovie({
+              imdbId: this.movie?.id || "",
+              upvotes: [],
+              downvotes: []
+            }));
+            this.groupService.update(group).subscribe(() => {
+              this.router.navigate(['/movies'], { queryParams: { group_id: this.groupId } });
+            });
+          }
+        }
+      });
     }
   }
 }

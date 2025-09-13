@@ -6,6 +6,8 @@ import { Group } from '../Group';
   providedIn: 'root'
 })
 export abstract class GroupService {
-  abstract findAll(): Promise<Observable<Group[]>>
-  abstract insert(group: Group): Promise<Observable<Group>>
+  abstract findAll(): Observable<Group[]>
+  abstract findById(id: string): Observable<Group | null>
+  abstract insert(group: Group): Observable<Group | null>
+  abstract update(group: Group): Observable<Group | null>
 }

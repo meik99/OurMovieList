@@ -25,12 +25,26 @@ export class LocalGroupService extends GroupService {
     }),
   ];
 
-  override async findAll(): Promise<Observable<Group[]>> {
+  override findAll(): Observable<Group[]> {
     return of(this.groups);
   }
 
-  override async insert(group: Group): Promise<Observable<Group>> {
+  override insert(group: Group): Observable<Group> {
     this.groups.push(group);
     return of(group);
+  }
+
+  override findById(id: string): Observable<Group | null> {
+    const group = this.groups.find(g => g.id === id);
+    return of(group || null);
+  }
+  
+  override update(group: Group): Observable<Group | null> {
+    const index = this.groups.findIndex(g => g.id === group.id);
+    if (index !== -1) {
+      this.groups[index] = group;
+      return of(group);
+    }
+    return of(null);
   }
 }

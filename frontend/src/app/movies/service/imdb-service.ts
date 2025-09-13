@@ -9,7 +9,7 @@ import { ImdbMovie } from '../ImdbMovie';
 export class ImdbService {
   constructor(private http: HttpClient) { }
 
-  async findMovieById(imdbId: string): Promise<Observable<ImdbMovie | null>> {
+  findMovieById(imdbId: string): Observable<ImdbMovie | null> {
     return this.http.get<ImdbMovie | null>(`https://api.imdbapi.dev/titles/${imdbId}`)
       .pipe(map((response: any) => {
         if (!response || response.code) {
@@ -20,7 +20,7 @@ export class ImdbService {
       }))
   }
 
-  async queryMovies(imdbQuery: string): Promise<Observable<ImdbMovie[]>> {
+  queryMovies(imdbQuery: string): Observable<ImdbMovie[]> {
     return this.http.get<any[]>(`https://api.imdbapi.dev/search/titles?query=${imdbQuery}`)
       .pipe(map((response: any) => {
         if (!response || response.code) {

@@ -20,9 +20,12 @@ export class Groups implements OnInit {
     private router: Router,
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    (await this.groupService.findAll()).subscribe(
-      (groups) => (this.groups = groups),
+  ngOnInit(): void {
+    this.groupService.findAll().subscribe(
+      (groups: any) => {
+        this.groups = groups;
+        console.log(this.groups);
+      },
     );
   }
 

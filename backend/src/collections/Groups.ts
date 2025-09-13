@@ -1,14 +1,23 @@
-import { downvote, upvote } from '@/endpoints/groups'
+import { downvote, findMyGroups, upvote } from '@/endpoints/groups'
 import { User } from '@/payload-types'
 import type { CollectionConfig } from 'payload'
 
 export const Groups: CollectionConfig = {
     slug: 'groups',
     access: {
-        read: () => true,
-        create: ({ req: { user }, data }) => {
+        read: ({ req: { user } }) => {
             if (!user) return false
-            if(user.id && user.id.toString() === "1") return true // Allow admin user to create groups
+            if (user.id && user.id.toString() === "1") return true // Allow admin user to read all groups
+
+            return {
+                or: [
+                    { 'admin.id': { equals: user.id.toString() } },
+                    { 'friends.id': { contains: user.id.toString() } }
+                ]
+            }
+        },
+        create: ({ req: { user }, data }) => {
+            if (!user) return false            
 
             if (data) {
                 // Ensure the user creating the group is set as the admin
@@ -17,36 +26,25 @@ export const Groups: CollectionConfig = {
 
             return true
         },
-        update: async ({ req: { user, payload }, id }) => {
+        update: ({ req: { user } }) => {
             if (!user) return false
-            if(user.id && user.id.toString() === "1") return true // Allow admin user to create groups
+            if (user.id && user.id.toString() === "1") return true // Allow admin user to read all groups
 
-            const group = await payload.findByID({
-                collection: 'groups',
-                id: id as string,
-                disableErrors: true,
-            })
-
-            const groupAdmin = group?.admin as User
-
-            return groupAdmin && groupAdmin.id === user.id
+            return { 'admin.id': { equals: user.id.toString() } }
         },
-        delete: async ({ req: { user, payload }, id }) => {
+        update: async ({ req: { user } }) => {
             if (!user) return false
-            if(user.id && user.id.toString() === "1") return true // Allow admin user to create groups
+            if (user.id && user.id.toString() === "1") return true // Allow admin user to read all groups
 
-            const group = await payload.findByID({
-                collection: 'groups',
-                id: id as string,
-                disableErrors: true,
-            })
-
-            const groupAdmin = group?.admin as User
-
-            return groupAdmin && groupAdmin.id === user.id
+            return { 'admin.id': { equals: user.id.toString() } }
         },
     },
     endpoints: [
+        {
+            path: '/findMyGroups',
+            method: 'get',
+            handler: findMyGroups
+        },
         {
             path: '/:id/upvote/:imdbId',
             method: 'post',

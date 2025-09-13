@@ -1,13 +1,24 @@
-@if(movies.length <= 0) {
-<div class="flex flex-col text-center p-8 gap-4">
+@if(group && group.movies.length <= 0) { <div class="flex flex-col text-center p-8 gap-4">
   <div>This group does not follow any movies</div>
   <div>Add one to fill the watchlist</div>
   <div>
-    <a class="button button-primary w-fit inline-block"
-    routerLink="/movies/create"
-    [queryParams]="{ group_id: groupId }"
-      >+</a
-    >
+    <a class="button button-primary w-fit inline-block" routerLink="/movies/create"
+      [queryParams]="{ group_id: groupId }">+</a>
   </div>
-</div>
-}
+  </div>
+  } @else {
+  <div class="flex flex-row p-8 pb-0 justify-between">
+    <a class="button button-primary w-fit inline-block" routerLink="/movies/create"
+      [queryParams]="{ group_id: groupId }">Add another movie</a>
+    <a class="button w-fit inline-block" routerLink="/groups">
+      Back to Groups
+    </a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-8">
+    @for (movie of movies; track movie.imdbId) {
+    @if(movie.imdbId) {
+    <app-movie-card [groupMovie]="movie"></app-movie-card>
+    }
+    }
+  </div>
+  }

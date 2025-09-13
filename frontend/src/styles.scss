@@ -71,3 +71,8 @@ body {
   background-color: var(--bg-secondary);
   @apply p-4 rounded-xl;
 }
+
+.movie-card {
+  background-color: var(--bg-secondary);
+  @apply rounded-xl shadow-xl px-5 py-3;
+}

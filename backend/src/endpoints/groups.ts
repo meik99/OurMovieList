@@ -1,5 +1,25 @@
 import { PayloadRequest } from "payload"
 
+export const findMyGroups = async (req: PayloadRequest) => {
+    const { user, payload } = req
+
+    if (!user) {
+        return Response.json({ message: 'Unauthorized' }, { status: 401 })
+    }
+
+    const groups = await payload.find({
+        collection: "groups",
+        where: {
+            or: [
+                { admin: { equals: user.id } },
+                { friends: { contains: user.id } }
+            ]
+        }
+    })
+
+    return Response.json(groups, { status: 200 })
+}
+
 export const upvote = async (req: PayloadRequest) => {
     const { user, routeParams } = req
 
