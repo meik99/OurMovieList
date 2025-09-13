@@ -1,5 +1,5 @@
 export class User {
-  id: string = "";
+  id: number = -1;
   email: string = "";
   token?: string;
   exp?: number;

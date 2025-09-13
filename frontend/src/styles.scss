@@ -34,6 +34,7 @@ body {
 
 .card {
   background-color: var(--bg-surface);
+  color: var(--on-bg);
   @apply rounded-xl shadow-2xl;
 }
 
@@ -75,4 +76,8 @@ body {
 .movie-card {
   background-color: var(--bg-secondary);
   @apply rounded-xl shadow-xl px-5 py-3;
+}
+
+.title {
+  @apply text-3xl font-extrabold;    
 }

@@ -21,16 +21,19 @@ export class Groups implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.groupService.findAll().subscribe(
-      (groups: any) => {
-        this.groups = groups;
-        console.log(this.groups);
-      },
-    );
+    this.refresh()
   }
 
   async logout() {
     this.loginService.logout();
     this.router.navigate(["/"]);
+  }
+
+  refresh() {
+    this.groupService.findAll().subscribe(
+      (groups: any) => {
+        this.groups = groups;
+      },
+    );
   }
 }

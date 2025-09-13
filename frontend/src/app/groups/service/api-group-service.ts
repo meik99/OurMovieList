@@ -5,6 +5,7 @@ import { Group } from '../Group';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../../login/service/login-service';
 import { environment } from '../../../environments/environment';
+import { GroupMovie } from '../GroupMovie';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,7 @@ export class ApiGroupService extends GroupService {
       Authorization: `Bearer ${user.token}`
     }
 
-    group.admin = user.id;
+    group.admin = { id: user.id, email: user.email };
 
     return this.http.post<Group>(`${environment.apiUrl}/groups`, group, { headers: header });
   }
@@ -84,5 +85,45 @@ export class ApiGroupService extends GroupService {
       .pipe(
         map((data: any) => data ? new Group(data) : null)
       );
+  }
+
+  override upvote(groupId: string, imdbId: string): Observable<GroupMovie | null> {
+    const user = this.loginService.getUser();
+
+    if (!user) {
+      return of(null);
+    }
+
+    const header = {
+      Authorization: `Bearer ${user.token}`
+    };
+
+    return this.http.post<GroupMovie>(
+      `${environment.apiUrl}/groups/${groupId}/upvote/${imdbId}`,
+      {},
+      { headers: header }
+    ).pipe(
+      map((data: any) => data ? new GroupMovie(data) : null)
+    );
+  }
+
+  override downvote(groupId: string, imdbId: string): Observable<GroupMovie | null> {
+    const user = this.loginService.getUser();
+
+    if (!user) {
+      return of(null);
+    }
+
+    const header = {
+      Authorization: `Bearer ${user.token}`
+    };
+
+    return this.http.post<GroupMovie>(
+      `${environment.apiUrl}/groups/${groupId}/downvote/${imdbId}`,
+      {},
+      { headers: header }
+    ).pipe(
+      map((data: any) => data ? new GroupMovie(data) : null)
+    );
   }
 }

@@ -1,3 +1,55 @@
+@if(group) {
+<div class="flex flex-row p-8 pb-0 justify-between">
+  <div class="flex flex-row flex-wrap gap-4 items-center">
+    <a class="button button-primary w-fit inline-block" routerLink="/movies/create"
+      [queryParams]="{ group_id: groupId }">Add a movie</a>
+    <a class="button w-fit inline-block" (click)="editGroupModalOpen = true">
+      Edit group
+    </a>
+    <h1 class="title">
+      {{ group?.name }}
+    </h1>
+  </div>
+  <a class="button w-fit inline-block h-fit" routerLink="/groups">
+    Back to Groups
+  </a>
+</div>
+
+
+<dialog [hidden]="!editGroupModalOpen"
+  class="m-auto absolute top-0 w-full h-full bg-black/30 backdrop-blur-lg flex flex-col justify-center items-center">
+  <div class="card w-7/8 md:w-3/4 m-auto">
+    <h2 class="card-title">Edit {{group.name}}</h2>
+    <div class="flex flex-col p-8 gap-6">
+      <div class="flex flex-col">
+        <label>Name*</label>
+        <input type="text" class="form-input" placeholder="My group" [(ngModel)]="name" />
+      </div>
+      <div class="flex flex-col">
+        <label>Add people you want to invite</label>
+
+        <input type="email" class="form-input mb-2" placeholder="friend@email.com" [(ngModel)]="friend" />
+        <button class="button w-fit" (click)="addFriend()">Add</button>
+      </div>
+      @if(friends.length > 0) {
+      <div class="flex flex-col gap-2">
+        @for(email of friends; track $index) {
+        <div class="item flex flex-row justify-between align-center items-center">
+          {{ email }}
+          <button class="button" (click)="removeFriend(email)">Remove</button>
+        </div>
+        }
+      </div>
+      }
+      <div class="flex flex-row gap-4">
+        <button class="button button-primary" (click)="save()">Save</button>
+        <a class="button inline-block" (click)="editGroupModalOpen = false"> Cancel </a>
+      </div>
+    </div>
+  </div>
+</dialog>
+}
+
 @if(group && group.movies.length <= 0) { <div class="flex flex-col text-center p-8 gap-4">
   <div>This group does not follow any movies</div>
   <div>Add one to fill the watchlist</div>
@@ -6,18 +58,12 @@
       [queryParams]="{ group_id: groupId }">+</a>
   </div>
   </div>
-  } @else {
-  <div class="flex flex-row p-8 pb-0 justify-between">
-    <a class="button button-primary w-fit inline-block" routerLink="/movies/create"
-      [queryParams]="{ group_id: groupId }">Add another movie</a>
-    <a class="button w-fit inline-block" routerLink="/groups">
-      Back to Groups
-    </a>
-  </div>
+  } @else if (group) {
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-8">
     @for (movie of movies; track movie.imdbId) {
     @if(movie.imdbId) {
-    <app-movie-card [groupMovie]="movie"></app-movie-card>
+    <app-movie-card [groupMovie]="movie" [group]="group" (onVote)="refresh()"
+      (onDelete)="delete($event)"></app-movie-card>
     }
     }
   </div>

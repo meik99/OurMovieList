@@ -35,7 +35,7 @@ export class CreateGroup {
         this.groupService.insert(
           new Group({
             name: this.name,
-            friends: this.friends,
+            friends: this.friends.map(email => ({ email: email })),
           }),
         )
       ).subscribe(() => this.router.navigate(["groups"]));

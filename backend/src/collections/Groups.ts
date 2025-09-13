@@ -11,13 +11,13 @@ export const Groups: CollectionConfig = {
 
             return {
                 or: [
-                    { 'admin.id': { equals: user.id.toString() } },
-                    { 'friends': { contains: user.email } }
+                    { "friends.email": { contains: user.email } },
+                    { "admin.id": { equals: user.id } }
                 ]
             }
         },
         create: ({ req: { user }, data }) => {
-            if (!user) return false            
+            if (!user) return false
 
             if (data) {
                 // Ensure the user creating the group is set as the admin
@@ -30,13 +30,18 @@ export const Groups: CollectionConfig = {
             if (!user) return false
             if (user.id && user.id.toString() === "1") return true // Allow admin user to read all groups
 
-            return { 'admin.id': { equals: user.id.toString() } }
+            return {
+                or: [
+                    { "friends.email": { contains: user.email } },
+                    { "admin.id": { equals: user.id } }
+                ]
+            }
         },
-        update: async ({ req: { user } }) => {
+        delete: async ({ req: { user } }) => {
             if (!user) return false
             if (user.id && user.id.toString() === "1") return true // Allow admin user to read all groups
 
-            return { 'admin.id': { equals: user.id.toString() } }
+            return { 'admin': { equals: user } }
         },
     },
     endpoints: [

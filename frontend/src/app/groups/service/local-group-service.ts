@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { GroupService } from "./group-service";
 import { Observable, of } from "rxjs";
 import { Group } from "../Group";
+import { GroupMovie } from "../GroupMovie";
 
 @Injectable({
   providedIn: "root",
@@ -11,17 +12,29 @@ export class LocalGroupService extends GroupService {
     new Group({
       id: "1",
       name: "New group 1",
-      friends: ["friend1@email.com", "friend2@email.com", "friend3@email.com"],
+      friends: [
+        { email: "friend1@email.com" },
+        { email: "friend2@email.com" },
+        { email: "friend3@email.com" }
+      ],
     }),
     new Group({
       id: "2",
       name: "New group 2",
-      friends: ["friend1@email.com", "friend2@email.com", "friend3@email.com"],
+      friends: [
+        { email: "friend1@email.com" },
+        { email: "friend2@email.com" },
+        { email: "friend3@email.com" }
+      ],
     }),
     new Group({
       id: "3",
       name: "New group 3",
-      friends: ["friend1@email.com", "friend2@email.com", "friend3@email.com"],
+      friends: [
+        { email: "friend1@email.com" },
+        { email: "friend2@email.com" },
+        { email: "friend3@email.com" }
+      ],
     }),
   ];
 
@@ -46,5 +59,13 @@ export class LocalGroupService extends GroupService {
       return of(group);
     }
     return of(null);
+  }
+
+  override upvote(groupId: string, imdbId: string): Observable<GroupMovie | null> {
+    throw new Error("Method not implemented.");
+  }
+  
+  override downvote(groupId: string, imdbId: string): Observable<GroupMovie | null> {
+    throw new Error("Method not implemented.");
   }
 }

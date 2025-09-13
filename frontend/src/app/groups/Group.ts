@@ -3,9 +3,14 @@ import { GroupMovie } from "./GroupMovie";
 export class Group {
   id?: string;
   name: string = "";
-  friends: string[] = [];
+  friends: {
+    email: string;
+  }[] = [];
   movies: GroupMovie[] = []
-  admin: string = "";
+  admin: {
+    id: number;
+    email: string;
+  } = { id: 0, email: "" };
 
   constructor(args?: Partial<Group>) {
     if (args) {

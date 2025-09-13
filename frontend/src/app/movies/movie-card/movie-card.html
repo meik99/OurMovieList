@@ -1,17 +1,24 @@
 @if (movie) {
-<div class="w-full movie-card h-full flex flex-row justify-between">
-    <div class="flex flex-col">
-        <div class="font-bold text-lg">{{ movie.originalTitle }}</div>
-        <div class="font-bold text-lg">{{ movie.primaryTitle }}</div>
-        <div class="text-sm">({{ movie.startYear }})</div>
-        <img class="max-h-80 mx-auto" [src]="movie.primaryImage?.url" alt="No movie image found" />
-    </div>
-    <div class="flex flex-col gap-4">
-        <button class="button">+</button>
-        <div class="text-center">
-            {{ score }}
+<div class="w-full movie-card h-full flex flex-col justify-between">
+    <div class="flex flex-row justify-between">
+        <div class="flex flex-col">
+            <div class="font-bold text-lg">{{ movie.originalTitle }}</div>
+            <div class="font-bold text-lg">{{ movie.primaryTitle }}</div>
+            <div class="text-sm">({{ movie.startYear }})</div>
+            <img class="max-h-80 mx-auto" [src]="movie.primaryImage?.url" alt="No movie image found" />
         </div>
-        <button class="button">-</button>
+        <div class="flex flex-col gap-4">
+            <button class="button" (click)="upvote()" [class.button-primary]="isUpvoted">+</button>
+            <div class="text-center">
+                {{ score }}
+            </div>
+            <button class="button" (click)="downvote()" [class.button-primary]="isDownvoted">-</button>
+        </div>
     </div>
+    @if(canDelete) {
+    <div class="flex flex-row justify-end pt-4">
+        <button class="button button-primary" (click)="onDelete.emit(groupMovie?.imdbId)">Delete</button>
+    </div>
+    }
 </div>
 }

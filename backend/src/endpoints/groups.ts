@@ -1,3 +1,4 @@
+import { User } from "@/payload-types"
 import { PayloadRequest } from "payload"
 
 export const findMyGroups = async (req: PayloadRequest) => {
@@ -11,8 +12,8 @@ export const findMyGroups = async (req: PayloadRequest) => {
         collection: "groups",
         where: {
             or: [
-                { admin: { equals: user.id } },
-                { friends: { contains: user.id } }
+                { "friends.email": { contains: user.email } },
+                { "admin.id": { equals: user.id } }
             ]
         }
     })
@@ -52,11 +53,11 @@ export const upvote = async (req: PayloadRequest) => {
     const upvotes = movie.upvotes || []
     const downvotes = movie.downvotes || []
 
-    if (upvotes.includes(user.id)) {
-        movie.upvotes = upvotes.filter(uid => uid !== user.id)
+    if (upvotes.find(upvote => (upvote as User).id === user.id)) {
+        movie.upvotes = upvotes.filter(upvote => (upvote as User).id !== user.id)
     } else {
-        movie.upvotes = [...upvotes, user.id]
-        movie.downvotes = downvotes.filter(uid => uid !== user.id)
+        movie.upvotes = [...upvotes, user]
+        movie.downvotes = downvotes.filter(downvote => (downvote as User).id !== user.id)
     }
 
     await req.payload.update({
@@ -67,7 +68,7 @@ export const upvote = async (req: PayloadRequest) => {
         }
     })
 
-    return Response.json({ message: 'Upvote successful' }, { status: 200 })
+    return Response.json(movie, { status: 200 })
 }
 
 
@@ -103,11 +104,11 @@ export const downvote = async (req: PayloadRequest) => {
     const upvotes = movie.upvotes || []
     const downvotes = movie.downvotes || []
 
-    if (downvotes.includes(user.id)) {
-        movie.downvotes = downvotes.filter(uid => uid !== user.id)
+    if (downvotes.find(downvote => (downvote as User).id === user.id)) {
+        movie.downvotes = downvotes.filter(downvote => (downvote as User).id !== user.id)
     } else {
-        movie.downvotes = [...downvotes, user.id]
-        movie.upvotes = upvotes.filter(uid => uid !== user.id)
+        movie.downvotes = [...downvotes, user]
+        movie.upvotes = upvotes.filter(upvote => (upvote as User).id !== user.id)
     }
 
     await req.payload.update({
@@ -118,6 +119,6 @@ export const downvote = async (req: PayloadRequest) => {
         }
     })
 
-    return Response.json({ message: 'Downvote successful' }, { status: 200 })
+    return Response.json(movie, { status: 200 })
 }
 
